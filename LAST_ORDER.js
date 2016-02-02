@@ -7,9 +7,10 @@ server.on('listening',function(){
   var address = server.address();
   console.log('Misaka Network Server is running properly on '+ address.address +":"+ address.port);
 });
-
-server.on('message',function(message,remote){
-  console.log(remote.address +':'+ remote.port +' - ' +message);
-});
-
+function receive(){
+  server.on('message',function(message,remote){
+    console.log(remote.address +':'+ remote.port +' - ' +message);
+  });
+}
+receive();
 server.bind(PORT,HOST);
