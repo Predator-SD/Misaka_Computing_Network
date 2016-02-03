@@ -11,7 +11,7 @@ function send(words,host){
   });
 }
 var run=function(obj){
-  var host=‘’;
+  var host='';
   var ins='Misaka Misaka is speaking seriously:';
   for(var misakaparament1 in obj){
     if(misakaparament1==0){
