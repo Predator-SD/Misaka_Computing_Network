@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 var dgram = require('dgram');
 var client = dgram.createSocket('udp4');
-function send(words){
-  var host = '0.0.0.0';
+function send(words,host){
   var port = 2426;
   var message = new Buffer(words);
   client.send(message, 0, message.length, port, host, function(err, bytes){
@@ -16,6 +15,6 @@ var run=function(obj){
   for(var misakaparament1 in obj){
     ins+=obj[misakaparament1]+' ';
   }
-  send(ins);
+  send(ins,'0.0.0.0');
 }
 run(process.argv.slice(2));
