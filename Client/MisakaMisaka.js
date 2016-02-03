@@ -11,10 +11,15 @@ function send(words,host){
   });
 }
 var run=function(obj){
+  var host=‘’;
   var ins='Misaka Misaka is speaking seriously:';
   for(var misakaparament1 in obj){
-    ins+=obj[misakaparament1]+' ';
+    if(misakaparament1==0){
+      host+=obj[0];
+    }else{
+      ins+=obj[misakaparament1]+' ';
+    }
   }
-  send(ins,'0.0.0.0');
+  send(ins,host);
 }
 run(process.argv.slice(2));
