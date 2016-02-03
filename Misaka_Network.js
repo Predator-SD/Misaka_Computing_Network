@@ -24,18 +24,45 @@ var run=function(obj){
   var host='';
   var type='';
   var ins='Misaka Misaka is speaking seriously:';
-  type+=obj[0];
-  if(type=='-l'){
-    listen();
-  }
-  if(type=='-c'){
-    for(var mp1 in obj){
-      if(mp1>=2){
-        ins+=obj[mp1]+' ';
-      }
+  if(obj[0]==undefined){
+    console.log("=====================================================");
+    console.log("|             Misaka_Computating_Network            |");
+    console.log("|               Open Source Framework               |");
+    console.log("|                       By SD                       |");
+    console.log("|             Email:zswdzly@outlook.com             |");
+    console.log("|   Git:Predator-SD/Misaka_Computating_Network.git  |");
+    console.log("|                                                   |");
+    console.log("|                     QWERTY                        |");
+    console.log("|                      2333                         |");
+    console.log("=====================================================");
+  }else{
+    var option='';
+    option+=obj[0];
+    if(option=='-h'){
+      console.log("Misaka Network for computating");
+      console.log('');
+      console.log("Form:node Misaka_Network.js [-option] [stuff]");
+      console.log('');
+      console.log("Options:");
+      console.log("->1. '-l' for Listen Mode > Used for starting a server.");
+      console.log("->2. '-c' for Communicate Mode > Used for sending requesting.");
+      console.log("================================================================");
     }
-    host+=obj[1];
-    communicate(ins,host);
+    if(option=='-l'){
+      listen();
+    }
+    if(option=='-c'){
+      for(var mp1 in obj){
+        if(mp1>=2){
+          ins+=obj[mp1]+' ';
+        }
+      }
+      host+=obj[1];
+      communicate(ins,host);
+    }
+    if(option!='-h'&&option!='-l'&&option!='-c'){
+      console("Undefined Action!!! <-h for help>");
+    }
   }
 }
 run(process.argv.slice(2));
