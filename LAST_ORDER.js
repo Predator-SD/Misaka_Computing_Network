@@ -1,8 +1,5 @@
-var PORT = 2426;
-var HOST = '127.0.0.1';
 var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
-
 server.on('listening',function(){
   var address = server.address();
   console.log('Misaka Network Server is running properly on '+ address.address +":"+ address.port);
@@ -13,4 +10,4 @@ function receive(){
   });
 }
 receive();
-server.bind(PORT,HOST);
+server.bind(2426);
