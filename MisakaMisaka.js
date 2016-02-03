@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var dgram = require('dgram');
 var client = dgram.createSocket('udp4');
 function send(words){
@@ -10,4 +11,11 @@ function send(words){
     client.close();
   });
 }
-send("This is Misaka Misaka~");
+var run=function(obj){
+  var ins='Misaka Misaka is speaking seriously:';
+  for(var misakaparament1 in obj){
+    ins+=obj[misakaparament1]+' ';
+  }
+  send(ins);
+}
+run(process.argv.slice(2));
