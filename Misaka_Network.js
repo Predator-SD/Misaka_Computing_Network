@@ -61,7 +61,7 @@ var run=function(obj){
       communicate(ins,host);
     }
     if(option!='-h'&&option!='-l'&&option!='-c'){
-      console("Undefined Action!!! <-h for help>");
+      console.log("Undefined Action!!! <-h for help>");
     }
   }
 }
