@@ -10,7 +10,7 @@ function communicate(words,host){
     net.close();
   });
 }
-function listen(){
+function LASTORDER(){
   net.on('listening',function(){
     var address = net.address();
     console.log('Misaka Network Server is running properly on '+ address.address+":"+address.port);
@@ -19,6 +19,16 @@ function listen(){
     console.log(remote.address +':'+ remote.port +'>'+message);
   });
   net.bind(2426);
+}
+function listen(port){
+  net.on('listening',function(){
+    var address = net.address();
+    console.log('Misaka Network Server is running properly on '+ address.address+":"+address.port);
+  });
+  net.on('message',function(message,remote){
+    console.log(remote.address +':'+ remote.port +'>'+message);
+  });
+  net.bind(port);
 }
 var run=function(obj){
   var host='';
@@ -44,12 +54,24 @@ var run=function(obj){
       console.log("Form:node Misaka_Network.js [-option] [stuff]");
       console.log('');
       console.log("Options:");
-      console.log("->1. '-l' for Listen Mode > Used for starting a server.");
+      console.log("->1. '-l' for LAST_ORDER Mode > Used for starting a server.");
       console.log("->2. '-c' for Communicate Mode > Used for sending requesting.");
+      console,log("->3. '-l -n [port]' for Custom Port mode > Used for Network Setup.");
       console.log("================================================================");
     }
     if(option=='-l'){
-      listen();
+      var port=new Number(0);
+      if(obj[1]==undefined){
+        LASTORDER();
+      }
+      if(obj[1]=='-n'){
+        for(var mp in obj){
+          if(mp==2){
+            port+=parseInt(obj[mp]);
+          }
+        }
+        listen(port);
+      }
     }
     if(option=='-c'){
       for(var mp1 in obj){
