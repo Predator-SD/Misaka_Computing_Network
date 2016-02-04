@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-var dgram = require('dgram');
-var net = dgram.createSocket('udp4');
 function communicate(words,host){
+  var dgram = require('dgram');
+  var net = dgram.createSocket('udp4');
   var port = 2426;
   var message = new Buffer(words);
   net.send(message, 0, message.length, port, host, function(err, bytes){
@@ -11,6 +11,8 @@ function communicate(words,host){
   });
 }
 function LASTORDER(){
+  var dgram = require('dgram');
+  var net = dgram.createSocket('udp4');
   net.on('listening',function(){
     var address = net.address();
     console.log('Misaka Network Server is running properly on '+ address.address+":"+address.port);
@@ -21,6 +23,8 @@ function LASTORDER(){
   net.bind(2426);
 }
 function listen(port){
+  var dgram = require('dgram');
+  var net = dgram.createSocket('udp4');
   net.on('listening',function(){
     var address = net.address();
     console.log('Misaka Network Server is running properly on '+ address.address+":"+address.port);
@@ -60,17 +64,17 @@ var run=function(obj){
       console.log("================================================================");
     }
     if(option=='-l'){
-      var port=new Number(0);
+      var portstart=new Number(0);
+      var portend=new Number(0);
       if(obj[1]==undefined){
         LASTORDER();
       }
-      if(obj[1]=='-n'){
-        for(var mp in obj){
-          if(mp==2){
-            port+=parseInt(obj[mp]);
-          }
+      if(obj[1]=='-n'&&obj[2]!=undefined&&obj[3]!=undefined){
+        portstart+=obj[2];
+        portend+=obj[3];
+        for(var i=portstart;i<=portend;i++){
+          listen(i);
         }
-        listen(port);
       }
     }
     if(option=='-c'){
