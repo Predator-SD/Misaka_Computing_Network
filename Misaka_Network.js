@@ -1,7 +1,16 @@
 #!/usr/bin/env node
-var cal=require("./cal.js");
 var fs=require("fs");
 var blank='';
+function reply(host){
+  var cal=require("./cal.js");
+  resre((cal.compute()).toString(),host,2427);
+  console.log("Result:"+cal.compute());
+  console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
+}
+function sleep(milliSeconds) {
+  var startTime = new Date().getTime();
+  while (new Date().getTime() < startTime + milliSeconds);
+}
 function cus(words){
   var fun="module.exports.compute=function(){"+words+"};";
   fs.writeFile("cal.js",fun,function(err){
@@ -12,7 +21,7 @@ function cus(words){
 function resre(res,host,port){
   var dgram = require('dgram');
   var net = dgram.createSocket('udp4');
-  var message = new Buffer(res);
+  var message = new Buffer("Misaka Misaka finished the work!!!Ah!I need a vacation!!!Here is the result:"+res);
   net.send(message, 0, message.length, port, host, function(err, bytes){
     if(err) throw err;
     console.log('Result has been sent to ' + host + ':'+ port+" by Misaka!");
@@ -40,16 +49,25 @@ function LASTORDER(){
   net.on('message',function(message,remote){
     console.log(remote.address +':'+ remote.port +'>'+message);
     cus(message);
-    var time=3000;
-    setTimeout(function(){
-      console.log("Calculating...");
-      resre((cal.compute()).toString(),remote.address,2427);
-      console.log("Result:"+cal.compute());
-      fs.writeFile("cal.js",blank,function(err){
-        if(err) throw err;
-        console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
+    console.log("Calculating...");
+    var isready=false;
+    for(var i=0;i<=5;i++){
+      sleep(500);
+      fs.readFile("cal.js","utf8",function(error,data){
+        if(error) throw error;
+        if(data!=''){
+          if(isready==false){
+            reply(remote.address);
+            isready=true;
+            console.log(remote.address);
+          }
+        }
       });
-    },time);
+      if(i==5){
+        fs.writeFile("cal.js",blank);
+      }
+    }
+    isready=false;
   });
   net.bind(2426);
 }
