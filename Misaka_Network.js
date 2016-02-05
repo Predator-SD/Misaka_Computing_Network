@@ -1,4 +1,24 @@
 #!/usr/bin/env node
+var cal=require("./cal.js");
+var fs=require("fs");
+var blank='';
+function cus(words){
+  var fun="module.exports.compute=function(){"+words+"};";
+  fs.writeFile("cal.js",fun,function(err){
+    if(err) throw err;
+    console.log("Request Accepted");
+  });
+}
+function resre(res,host,port){
+  var dgram = require('dgram');
+  var net = dgram.createSocket('udp4');
+  var message = new Buffer(res);
+  net.send(message, 0, message.length, port, host, function(err, bytes){
+    if(err) throw err;
+    console.log('Result has been sent to ' + host + ':'+ port+" by Misaka!");
+    net.close();
+  });
+}
 function communicate(words,host){
   var dgram = require('dgram');
   var net = dgram.createSocket('udp4');
@@ -19,6 +39,17 @@ function LASTORDER(){
   });
   net.on('message',function(message,remote){
     console.log(remote.address +':'+ remote.port +'>'+message);
+    cus(message);
+    var time=3000;
+    setTimeout(function(){
+      console.log("Calculating...");
+      resre((cal.compute()).toString(),remote.address,2427);
+      console.log("Result:"+cal.compute());
+      fs.writeFile("cal.js",blank,function(err){
+        if(err) throw err;
+        console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
+      });
+    },time);
   });
   net.bind(2426);
 }
@@ -38,6 +69,7 @@ var run=function(obj){
   var host='';
   var type='';
   var ins='Misaka Misaka is speaking seriously:';
+  var insc='';
   if(obj[0]==undefined){
     console.log("=====================================================");
     console.log("|             Misaka_Computating_Network            |");
@@ -59,7 +91,8 @@ var run=function(obj){
       console.log('');
       console.log("Options:");
       console.log("->1. '-l' for LAST_ORDER Mode > Used for starting a server.");
-      console.log("->2. '-c' for Communicate Mode > Used for sending requesting.");
+      console.log("->2. '-s' for Sending Mode > Used for sending requesting.");
+      console.log("->3. '-c' for Cloud_Computing Mode > Used for cluster computing.");
       console.log("================================================================");
     }
     if(option=='-l'){
@@ -69,7 +102,7 @@ var run=function(obj){
         LASTORDER();
       }
     }
-    if(option=='-c'){
+    if(option=='-s'&&obj[1]!=undefined&&obj[2]!=undefined){
       for(var mp1 in obj){
         if(mp1>=2){
           ins+=obj[mp1]+' ';
@@ -80,6 +113,20 @@ var run=function(obj){
     }
     if(option!='-h'&&option!='-l'&&option!='-c'){
       console.log("Undefined Action!!! <-h for help>");
+    }
+    if(option=='-c'&&obj[1]!=undefined&&obj[2]!=undefined){
+      for(var mp2 in obj){
+        if(mp2>=2){
+          if(obj[mp2]=='e'){
+            insc+='; ';
+          }else{
+            insc+=obj[mp2]+' ';
+          }
+        }
+      }
+      host+=obj[1];
+      communicate(insc,host);
+      listen(2427);
     }
   }
 }
