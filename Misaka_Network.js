@@ -60,7 +60,6 @@ var run=function(obj){
       console.log("Options:");
       console.log("->1. '-l' for LAST_ORDER Mode > Used for starting a server.");
       console.log("->2. '-c' for Communicate Mode > Used for sending requesting.");
-      console.log("->3. '-l -n [portstart] [portend]' for Custom Port mode > Used for Network Setup.");
       console.log("================================================================");
     }
     if(option=='-l'){
@@ -68,13 +67,6 @@ var run=function(obj){
       var portend=new Number(0);
       if(obj[1]==undefined){
         LASTORDER();
-      }
-      if(obj[1]=='-n'&&obj[2]!=undefined&&obj[3]!=undefined){
-        portstart+=obj[2];
-        portend+=obj[3];
-        for(var i=portstart;i<=portend;i++){
-          listen(i);
-        }
       }
     }
     if(option=='-c'){
