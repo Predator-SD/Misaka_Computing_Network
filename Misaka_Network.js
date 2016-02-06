@@ -53,8 +53,9 @@ function LASTORDER(){
     cus(message);
     console.log("Calculating...");
     var isready=false;
+    var i=0;
     for(var i=0;i<=5;i++){
-      sleep(300);
+      sleep(1000);
       fs.readFile("cal.js","utf8",function(error,data){
         if(error) throw error;
         if(data!=''){
