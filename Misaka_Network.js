@@ -65,6 +65,7 @@ function LASTORDER(){
             delete require.cache[pwd];
             console.log(remote.address);
             isready=true;
+            fs.writeFile("./cal.js",'');
           }
         }
       });
