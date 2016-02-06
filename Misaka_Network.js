@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 var path=require('path');
 var fs=require("fs");
-var blank='';
 function reply(host){
   var cal=require("./cal.js");
   resre((cal.compute()).toString(),host,2427);
@@ -53,9 +52,11 @@ function LASTORDER(){
     cus(message);
     console.log("Calculating...");
     var isready=false;
-    var i=0;
-    for(var i=0;i<=5;i++){
-      sleep(1000);
+    var i;
+    for(i=0;i<=2426;i++){
+      if(isready==true){
+        sleep(100);
+      }
       fs.readFile("cal.js","utf8",function(error,data){
         if(error) throw error;
         if(data!=''){
