@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+var path=require('path');
 var fs=require("fs");
 var blank='';
 function reply(host){
@@ -6,6 +7,7 @@ function reply(host){
   resre((cal.compute()).toString(),host,2427);
   console.log("Result:"+cal.compute());
   console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
+  return 0;
 }
 function sleep(milliSeconds) {
   var startTime = new Date().getTime();
@@ -52,22 +54,21 @@ function LASTORDER(){
     console.log("Calculating...");
     var isready=false;
     for(var i=0;i<=5;i++){
-      sleep(500);
+      sleep(300);
       fs.readFile("cal.js","utf8",function(error,data){
         if(error) throw error;
         if(data!=''){
           if(isready==false){
             reply(remote.address);
-            isready=true;
+            var pwd=path.resolve();
+            pwd+='/cal.js';
+            delete require.cache[pwd];
             console.log(remote.address);
+            isready=true;
           }
         }
       });
-      if(i==5){
-        fs.writeFile("cal.js",blank);
-      }
     }
-    isready=false;
   });
   net.bind(2426);
 }
