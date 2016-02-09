@@ -48,29 +48,53 @@ function LASTORDER(){
     console.log('Misaka Network Server is running properly on '+ address.address+":"+address.port);
   });
   net.on('message',function(message,remote){
-    console.log(remote.address +':'+ remote.port +'>'+message);
-    cus(message);
-    console.log("Calculating...");
-    var isready=false;
-    var i;
-    for(i=0;i<=7200;i++){
-      if(isready==true){
-        sleep(1000);
-      }
-      fs.readFile("cal.js","utf8",function(error,data){
-        if(error) throw error;
-        if(data!=''){
-          if(isready==false){
-            reply(remote.address);
-            var pwd=path.resolve();
-            pwd+='/cal.js';
-            delete require.cache[pwd];
-            console.log(remote.address);
-            isready=true;
-            fs.writeFile("./cal.js",'');
-          }
+    //console.log('Raw message:'+message);
+    var str=message.toString();
+    var head='';
+    head+=str[0];
+    head+=str[1];
+    //console.log(typeof head);
+    console.log(head);
+    if(head=='c '){
+      var pm='';
+      for(var m in str){
+        if(m>=2){
+          pm+=str[m];
         }
-      });
+      }
+      console.log(pm);
+      cus(pm);
+      console.log("Calculating...");
+      var isready=false;
+      var i;
+      for(i=0;i<=7200;i++){
+        if(isready==true){
+          sleep(1000);
+        }
+        fs.readFile("cal.js","utf8",function(error,data){
+          if(error) throw error;
+          if(data!=''){
+            if(isready==false){
+              reply(remote.address);
+              var pwd=path.resolve();
+              pwd+='/cal.js';
+              delete require.cache[pwd];
+              console.log(remote.address);
+              isready=true;
+              fs.writeFile("./cal.js",'');
+            }
+          }
+        });
+      }
+    }
+    if(head=='s '){
+      var words='';
+      for(var n in str){
+        if(n>=2){
+          words+=str[n];
+        }
+      }
+      console.log(remote.address+':'+remote.port+'>'+words);
     }
   });
   net.bind(2426);
@@ -90,7 +114,7 @@ function listen(port){
 var run=function(obj){
   var host='';
   var type='';
-  var ins='Misaka Misaka is speaking seriously:';
+  var ins='';
   var insc='';
   if(obj[0]==undefined){
     console.log("=====================================================");
@@ -130,10 +154,12 @@ var run=function(obj){
           ins+=obj[mp1]+' ';
         }
       }
+      var head="s Misaka Misaka is speaking in a joyful voice:";
+      var mes=head+ins;
       host+=obj[1];
-      communicate(ins,host);
+      communicate(mes,host);
     }
-    if(option!='-h'&&option!='-l'&&option!='-c'){
+    if(option!='-h'&&option!='-l'&&option!='-c'&&option!='-s'){
       console.log("Undefined Action!!! <-h for help>");
     }
     if(option=='-c'&&obj[1]!=undefined&&obj[2]!=undefined){
@@ -146,8 +172,10 @@ var run=function(obj){
           }
         }
       }
+      var head2="c ";
+      var res=head2+insc;
       host+=obj[1];
-      communicate(insc,host);
+      communicate(res,host);
       listen(2427);
     }
   }
