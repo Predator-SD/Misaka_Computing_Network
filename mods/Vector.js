@@ -142,3 +142,12 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
 };
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
+module.exports.Cross=vxm;
+module.exports.Dot=vdm;
+module.exports.Plus=vp;
+module.exports.sind=sind;
+module.exports.cosd=cosd;
+module.exports.Euler=Euler;
+module.exports.Quaternion_Inverse=iq;
+module.exports.Quaternion_Norm=N;
+module.exports.Quaternion_Multiply=qmu;
