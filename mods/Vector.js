@@ -1,4 +1,21 @@
-function vxm(u,v){
+/*
+
+                   Y
+                   |
+                   |
+                   |
+                   |
+                   |
+                   |
+                  /----------------Z
+                 /
+                /
+               /
+              /
+             X
+
+*/
+var vxm=function(u,v){
   var x=u[1]*v[2]-v[1]*u[2];
   var y=u[2]*v[0]-v[2]*u[0];
   var z=u[0]*v[1]-u[1]*v[0];
@@ -7,15 +24,15 @@ function vxm(u,v){
   res[1]=y;
   res[2]=z;
   return res;
-}
-function vdm(u,v){
+};
+var vdm=function(u,v){
   var p1=u[0]*v[0];
   var p2=u[1]*v[1];
   var p3=u[2]*v[2];
   var res=p1+p2+p3;
   return res;
-}
-function vp(u,v){
+};
+var vp=function(u,v){
   var x=u[0]+v[0];
   var y=u[1]+v[1];
   var z=u[2]+v[2];
@@ -24,16 +41,16 @@ function vp(u,v){
   res[1]=y;
   res[2]=z;
   return res;
-}
-function sind(theta){
+};
+var sind=function(theta){
   rad=theta*Math.PI/180;
   return Math.sin(rad);
-}
-function cosd(theta){
+};
+var cosd=function(theta){
   rad=theta*Math.PI/180;
   return Math.cos(rad);
-}
-function Euler(xt,yt,zt){
+};
+var Euler=function(xt,yt,zt){
   x=sind(yt/2)*sind(zt/2)*cosd(xt/2)+cosd(yt/2)*cosd(zt/2)*sind(xt/2);
   y=cosd(yt/2)*sind(zt/2)*sind(xt/2)+sind(yt/2)*cosd(zt/2)*cosd(xt/2);
   z=cosd(yt/2)*sind(zt/2)*cosd(xt/2)-sind(yt/2)*cosd(zt/2)*sind(xt/2);
@@ -44,8 +61,8 @@ function Euler(xt,yt,zt){
   Quaternion[2]=z;
   Quaternion[3]=w;
   return Quaternion;
-}
-function qv(q){
+};
+var qv=function(q){
   var x=q[0];
   var y=q[1];
   var z=q[2];
@@ -54,8 +71,8 @@ function qv(q){
   res[1]=y;
   res[2]=z;
   return res;
-}
-function nmv(num,vec){
+};
+var nmv=function(num,vec){
   x=num*vec[0];
   y=num*vec[1];
   z=num*vec[2];
@@ -64,8 +81,8 @@ function nmv(num,vec){
   res[1]=y;
   res[2]=z;
   return res;
-}
-function qmu(q1,q2){
+};
+var qmu=function(q1,q2){
   var v1=new Array();
   var v2=new Array();
   v1=qv(q1);
@@ -81,28 +98,28 @@ function qmu(q1,q2){
   res[2]=p1[2];
   res[3]=p2;
   return res;
-}
-function vtq(vec){
+};
+var vtq=function(vec){
   var Q=new Array();
   Q[0]=vec[0];
   Q[1]=vec[1];
   Q[2]=vec[2];
   Q[3]=0;
   return Q;
-}
-function cq(Q){
+};
+var cq=function(Q){
   var res=new Array();
   res[0]=(-1)*Q[0];
   res[1]=(-1)*Q[1];
   res[2]=(-1)*Q[2];
   res[3]=Q[3];
   return res;
-}
-function N(q){
+};
+var N=function(q){
   var orin=Math.pow(q[0],2)+Math.pow(q[1],2)+Math.pow(q[2],2)+Math.pow(q[3],2);
   return Math.sqrt(orin);
-}
-function iq(Q){
+};
+var iq=function(Q){
   var m=N(Q);
   var con=cq(Q);
   var res=new Array();
@@ -111,8 +128,8 @@ function iq(Q){
   res[2]=con[2]/m;
   res[3]=con[3]/m;
   return res;
-}
-function Quaternion_Transform(V,Q){
+};
+var Quaternion_Transform=function(V,Q){
   var QI=iq(Q);
   var P=vtq(V);
   var resq=qmu(qmu(Q,P),QI);
@@ -121,7 +138,7 @@ function Quaternion_Transform(V,Q){
   resv[1]=resq[1];
   resv[2]=resq[2];
   return resv;
-}
+};
 var Vector_Transform=function(Vector,Theta){
   var Quaternion=Euler(Theta[0],Theta[1],Theta[2]);
   var Result=Quaternion_Transform(Vector,Quaternion);
@@ -142,3 +159,12 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
 };
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
+module.exports.Cross=vxm;
+module.exports.Dot=vdm;
+module.exports.Plus=vp;
+module.exports.sind=sind;
+module.exports.cosd=cosd;
+module.exports.Euler=Euler;
+module.exports.Quaternion_Inverse=iq;
+module.exports.Quaternion_Norm=N;
+module.exports.Quaternion_Multiply=qmu;
