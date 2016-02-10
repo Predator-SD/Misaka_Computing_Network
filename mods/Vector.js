@@ -16,9 +16,9 @@ function vdm(u,v){
   return res;
 }
 function vp(u,v){
-  x=u[0]+v[0];
-  y=u[1]+v[1];
-  z=u[2]+v[2];
+  var x=u[0]+v[0];
+  var y=u[1]+v[1];
+  var z=u[2]+v[2];
   var res=new Array();
   res[0]=x;
   res[1]=y;
@@ -48,7 +48,7 @@ function Euler(xt,yt,zt){
 function qv(q){
   var x=q[0];
   var y=q[1];
-  var Z=q[2];
+  var z=q[2];
   var res = new Array();
   res[0]=x;
   res[1]=y;
@@ -122,14 +122,23 @@ function Quaternion_Transform(V,Q){
   resv[2]=resq[2];
   return resv;
 }
-function Utral_Vector_Transform(vx,vy,vz,xt,yt,zt){
-  var Vector=new Object();
-  var Quaternion=Euler(xt,yt,zt);
-  Vector[0]=vx;
-  Vector[1]=vy;
-  Vector[2]=vz;
+var Vector_Transform=function(Vector,Theta){
+  var Quaternion=Euler(Theta[0],Theta[1],Theta[2]);
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
-}
-var a=Utral_Vector_Transform(1,0,0,0,45,0);
-console.log(a);
+};
+var Utral_Vector_Transform=function(Vector,Axis,Theta){
+  var Quaternion=new Array();
+  var ts=sind(Theta/2);
+  var tc=cosd(Theta/2);
+  var W=tc;
+  var V=nmv(ts,Axis);
+  Quaternion[0]=V[0];
+  Quaternion[1]=V[1];
+  Quaternion[2]=V[2];
+  Quaternion[3]=W;
+  var Result=Quaternion_Transform(Vector,Quaternion);
+  return Result;
+};
+module.exports.VT=Vector_Transform;
+module.exports.UVT=Utral_Vector_Transform;
