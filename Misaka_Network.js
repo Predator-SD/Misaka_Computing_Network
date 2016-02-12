@@ -1,6 +1,28 @@
 #!/usr/bin/env node
-var path=require('path');
-var fs=require("fs");
+var
+    fs = require('fs'),
+    url = require('url'),
+    path = require('path'),
+    http = require('http');
+function httpserver(){
+  var root=path.resolve();
+  var httpserver = http.createServer(function (request, response) {
+      var pathname = url.parse(request.url).pathname;
+      var filepath = path.join(root, pathname);
+      fs.stat(filepath, function (err, stats) {
+          if (!err && stats.isFile()) {
+              console.log('200 Misaka Misaka is cheering for the new visitor~' + request.url);
+              response.writeHead(200);
+              fs.createReadStream(filepath).pipe(response);
+          } else {
+              console.log('404 Misaka Misaka is speaking regretfully...' + request.url);
+              response.writeHead(404);
+              response.end('Eee~ It seems that the file you want does not exist,Misaka Misaka is trying to show great sympathy for u~');
+          }
+      });
+  });
+  httpserver.listen(2333);
+}
 function reply(host){
   var cal=require("./cal.js");
   resre((cal.compute()).toString(),host,2427);
@@ -22,11 +44,19 @@ function cus(words){
 function resre(res,host,port){
   var dgram = require('dgram');
   var net = dgram.createSocket('udp4');
+  var fornet = "Misaka Misaka finished the work!!!Ah!I need a vacation!!!Here is the result:"+res;
   var message = new Buffer("Misaka Misaka finished the work!!!Ah!I need a vacation!!!Here is the result:"+res);
   net.send(message, 0, message.length, port, host, function(err, bytes){
     if(err) throw err;
     console.log('Result has been sent to ' + host + ':'+ port+" by Misaka!");
     net.close();
+  });
+  fs.writeFile('Result.SD', fornet, function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('The result has been put on the site by Misaka Misaka~');
+    }
   });
 }
 function communicate(words,host){
@@ -145,6 +175,7 @@ var run=function(obj){
       var portstart=new Number(0);
       var portend=new Number(0);
       if(obj[1]==undefined){
+	httpserver();
         LASTORDER();
       }
     }
@@ -176,7 +207,7 @@ var run=function(obj){
       var res=head2+insc;
       host+=obj[1];
       communicate(res,host);
-      listen(2427);
+      //listen(2427);
     }
   }
 }
