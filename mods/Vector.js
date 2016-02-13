@@ -15,6 +15,16 @@
              X
 
 */
+var map=function(val,input,out){
+  var min1=input[0];
+  var max1=input[1];
+  var min2=out[0];
+  var max2=out[1];
+  var a=input[1]-input[0];
+  var b=out[1]-out[0];
+  var res=(((val-min1)/a)*b)+min2;
+  return res;
+};
 var vxm=function(u,v){
   var x=u[1]*v[2]-v[1]*u[2];
   var y=u[2]*v[0]-v[2]*u[0];
@@ -42,12 +52,26 @@ var vp=function(u,v){
   res[2]=z;
   return res;
 };
+var rtd=function(rad){
+  var deg=rad*(180/Math.PI);
+  return deg;
+};
+var arcsin=function(sin){
+  var rasin=Math.asin(sin);
+  var dasin=rtd(rasin);
+  return dasin;
+};
+var arccos=function(cos){
+  var racos=Math.acos(cos);
+  var dacos=rtd(racos);
+  return dacos;
+};
 var sind=function(theta){
-  rad=theta*Math.PI/180;
+  var rad=theta*Math.PI/180;
   return Math.sin(rad);
 };
 var cosd=function(theta){
-  rad=theta*Math.PI/180;
+  var rad=theta*Math.PI/180;
   return Math.cos(rad);
 };
 var Euler=function(xt,yt,zt){
@@ -120,7 +144,7 @@ var N=function(q){
   return Math.sqrt(orin);
 };
 var iq=function(Q){
-  var m=N(Q);
+  var m=1;//Change this into N(Q)
   var con=cq(Q);
   var res=new Array();
   res[0]=con[0]/m;
@@ -157,6 +181,7 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
 };
+//Exports:
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
 module.exports.Cross=vxm;
@@ -168,3 +193,7 @@ module.exports.Euler=Euler;
 module.exports.Quaternion_Inverse=iq;
 module.exports.Quaternion_Norm=N;
 module.exports.Quaternion_Multiply=qmu;
+module.exports.RTD=rtd;
+module.exports.ARCSIN=arcsin;
+module.exports.ARCCOS=arccos;
+module.exports.MAP=map;
