@@ -1,4 +1,4 @@
-Misaka_Network使用教程
+Misaka_Network使用教程（node版本要求5.5.0+)
 ===
 1.安装和部署
 ---
