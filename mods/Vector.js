@@ -181,6 +181,14 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
 };
+var mo=function(x,y){
+  var m=Math.sqrt(pow(x,2)+pow(y,2));
+  return m;
+}
+var ta=function(x,y){
+  theta=arcsin(y/(mo(x,y)));
+  return theta;
+}
 //Exports:
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
