@@ -227,4 +227,4 @@ module.exports.ARCCOS=arccos;
 module.exports.MAP=map;
 module.exports.ASV2D=accelerator_static_2D_predictor;
 module.exports.TA=ta;
-module.exports.M=mo;
+module.exports.Mo=mo;
