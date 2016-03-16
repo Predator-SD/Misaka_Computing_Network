@@ -186,7 +186,7 @@ var gtd=function(g){
   return t;
 };
 var mo=function(x,y){
-  var m=Math.sqrt(pow(x,2)+pow(y,2));
+  var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
   return m;
 };
 var ta=function(x,y){
@@ -226,3 +226,5 @@ module.exports.ARCSIN=arcsin;
 module.exports.ARCCOS=arccos;
 module.exports.MAP=map;
 module.exports.ASV2D=accelerator_static_2D_predictor;
+module.exports.TA=ta;
+module.exports.M=mo;
