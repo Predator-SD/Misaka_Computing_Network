@@ -181,14 +181,34 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
 };
+var gtd=function(g){
+  var t=0.9*g;
+  return t;
+};
 var mo=function(x,y){
   var m=Math.sqrt(pow(x,2)+pow(y,2));
   return m;
-}
+};
 var ta=function(x,y){
-  theta=arcsin(y/(mo(x,y)));
+  var theta=arcsin(y/(mo(x,y)));
   return theta;
-}
+};
+var accelerator_static_2D_predictor=function(vec1,vec2){
+  var x1=vec1[0];
+  var y1=vec1[1];
+  var x2=vec2[0];
+  var y2=vec2[1];
+  var t1=ta(x1,y1);
+  var t2=ta(x2,y2);
+  var m=mo(x2,y2);
+  var pt=t1+t2-90;
+  var u=m*cosd(pt);
+  var v=m*sind(pt);
+  var Future_Vec=new Array();
+  Future_Vec[0]=u;
+  Future_Vec[1]=v;
+  return Future_Vec;
+};
 //Exports:
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
