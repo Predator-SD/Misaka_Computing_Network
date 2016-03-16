@@ -225,3 +225,4 @@ module.exports.RTD=rtd;
 module.exports.ARCSIN=arcsin;
 module.exports.ARCCOS=arccos;
 module.exports.MAP=map;
+module.exports.ASV2D=accelerator_static_2D_predictor;
