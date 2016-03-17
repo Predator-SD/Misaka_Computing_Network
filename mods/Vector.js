@@ -209,6 +209,14 @@ var accelerator_static_2D_predictor=function(vec1,vec2){
   Future_Vec[1]=v;
   return Future_Vec;
 };
+var translate2d=function(vec,t){
+	var u=cosd(t)*vec[0]+cosd(90+t)*vec[1];
+	var v=sind(t)*vec[0]+sind(90+t)*vec[1];
+	var Base=new Array();
+	Base[0]=u;
+	Base[1]=v;
+	return Base;
+};
 //Exports:
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
@@ -228,3 +236,4 @@ module.exports.MAP=map;
 module.exports.ASV2D=accelerator_static_2D_predictor;
 module.exports.TA=ta;
 module.exports.Mo=mo;
+module.exports.T2D=translate2d;
