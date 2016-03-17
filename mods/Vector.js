@@ -15,6 +15,17 @@
              X
 
 */
+
+var abs=function(n){
+	if(n>=0){
+		return n;
+	}else{
+		if(n<0){
+			return (-n);
+		}
+	}
+};
+
 var map=function(val,input,out){
   var min1=input[0];
   var max1=input[1];
@@ -25,6 +36,7 @@ var map=function(val,input,out){
   var res=(((val-min1)/a)*b)+min2;
   return res;
 };
+
 var vxm=function(u,v){
   var x=u[1]*v[2]-v[1]*u[2];
   var y=u[2]*v[0]-v[2]*u[0];
@@ -35,6 +47,7 @@ var vxm=function(u,v){
   res[2]=z;
   return res;
 };
+
 var vdm=function(u,v){
   var p1=u[0]*v[0];
   var p2=u[1]*v[1];
@@ -42,6 +55,7 @@ var vdm=function(u,v){
   var res=p1+p2+p3;
   return res;
 };
+
 var vp=function(u,v){
   var x=u[0]+v[0];
   var y=u[1]+v[1];
@@ -52,28 +66,34 @@ var vp=function(u,v){
   res[2]=z;
   return res;
 };
+
 var rtd=function(rad){
   var deg=rad*(180/Math.PI);
   return deg;
 };
+
 var arcsin=function(sin){
   var rasin=Math.asin(sin);
   var dasin=rtd(rasin);
   return dasin;
 };
+
 var arccos=function(cos){
   var racos=Math.acos(cos);
   var dacos=rtd(racos);
   return dacos;
 };
+
 var sind=function(theta){
   var rad=theta*Math.PI/180;
   return Math.sin(rad);
 };
+
 var cosd=function(theta){
   var rad=theta*Math.PI/180;
   return Math.cos(rad);
 };
+
 var Euler=function(xt,yt,zt){
   x=sind(yt/2)*sind(zt/2)*cosd(xt/2)+cosd(yt/2)*cosd(zt/2)*sind(xt/2);
   y=cosd(yt/2)*sind(zt/2)*sind(xt/2)+sind(yt/2)*cosd(zt/2)*cosd(xt/2);
@@ -86,6 +106,7 @@ var Euler=function(xt,yt,zt){
   Quaternion[3]=w;
   return Quaternion;
 };
+
 var qv=function(q){
   var x=q[0];
   var y=q[1];
@@ -96,6 +117,7 @@ var qv=function(q){
   res[2]=z;
   return res;
 };
+
 var nmv=function(num,vec){
   x=num*vec[0];
   y=num*vec[1];
@@ -106,6 +128,7 @@ var nmv=function(num,vec){
   res[2]=z;
   return res;
 };
+
 var qmu=function(q1,q2){
   var v1=new Array();
   var v2=new Array();
@@ -123,6 +146,7 @@ var qmu=function(q1,q2){
   res[3]=p2;
   return res;
 };
+
 var vtq=function(vec){
   var Q=new Array();
   Q[0]=vec[0];
@@ -131,6 +155,7 @@ var vtq=function(vec){
   Q[3]=0;
   return Q;
 };
+
 var cq=function(Q){
   var res=new Array();
   res[0]=(-1)*Q[0];
@@ -139,10 +164,12 @@ var cq=function(Q){
   res[3]=Q[3];
   return res;
 };
+
 var N=function(q){
   var orin=Math.pow(q[0],2)+Math.pow(q[1],2)+Math.pow(q[2],2)+Math.pow(q[3],2);
   return Math.sqrt(orin);
 };
+
 var iq=function(Q){
   var m=1;//Change this into N(Q)
   var con=cq(Q);
@@ -153,6 +180,7 @@ var iq=function(Q){
   res[3]=con[3]/m;
   return res;
 };
+
 var Quaternion_Transform=function(V,Q){
   var QI=iq(Q);
   var P=vtq(V);
@@ -163,11 +191,13 @@ var Quaternion_Transform=function(V,Q){
   resv[2]=resq[2];
   return resv;
 };
+
 var Vector_Transform=function(Vector,Theta){
   var Quaternion=Euler(Theta[0],Theta[1],Theta[2]);
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
 };
+
 var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var Quaternion=new Array();
   var ts=sind(Theta/2);
@@ -181,34 +211,55 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var Result=Quaternion_Transform(Vector,Quaternion);
   return Result;
 };
+
 var gtd=function(g){
   var t=0.9*g;
   return t;
 };
+
 var mo=function(x,y){
   var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
   return m;
 };
+
 var ta=function(x,y){
-  var theta=arcsin(y/(mo(x,y)));
+  if(x!=0&&y!=0){
+    var tr=arcsin(y/(mo(abs(x),as(y))));
+	if(x>0&&y>0){
+		return tr;
+	}
+	if(x<0&&y>0){
+		return (180-tr);
+	}
+	if(x<0&&y<0){
+		return (180+tr);
+	}
+	if(x>0&&y<0){
+		return (360-tr);
+	}
+  }else{
+	  if(x==0&&y!=0){
+		  if(y>0){
+			  return 90;
+		  }else{
+			  return 270;
+		  }
+	  }else{
+		  if(x!=0&&y==0){
+			  if(x>0){
+				  return 0;
+			  }
+			  if(x<0){
+				  return 180;
+			  }
+		  }else{
+			  return 0;
+		  }
+	  }
+  }
   return theta;
 };
-var accelerator_static_2D_predictor=function(vec1,vec2){
-  var x1=vec1[0];
-  var y1=vec1[1];
-  var x2=vec2[0];
-  var y2=vec2[1];
-  var t1=ta(x1,y1);
-  var t2=ta(x2,y2);
-  var m=mo(x2,y2);
-  var pt=t1+t2-90;
-  var u=m*cosd(pt);
-  var v=m*sind(pt);
-  var Future_Vec=new Array();
-  Future_Vec[0]=u;
-  Future_Vec[1]=v;
-  return Future_Vec;
-};
+
 var translate2d=function(vec,t){
 	var u=cosd(t)*vec[0]+cosd(90+t)*vec[1];
 	var v=sind(t)*vec[0]+sind(90+t)*vec[1];
@@ -217,7 +268,43 @@ var translate2d=function(vec,t){
 	Base[1]=v;
 	return Base;
 };
+
+var accelerator_static_2D_predictor=function(vec1,vec2){
+  var x1=vec1[0];
+  var y1=vec1[1];
+  var x2=vec2[0];
+  var y2=vec2[1];
+  var E=new Array();
+  E=translate2d([x2,y2],(ta(x1,y1)-90));
+  var F=new Array();
+  F[0]=E[0]-x1;
+  F[1]=E[1]-x2;
+  return F;
+};
+
+//With errors:
+var translate3d=function(vp,vt){
+	var x=vp[0];
+	var y=vp[1];
+	var z=vp[2];
+	var xt=vt[0];
+	var yt=vt[1];
+	var zt=vt[2];
+	var t1=new Array();
+	var t2=new Array();
+	var t3=new Array();
+	t1=translate2d([z,x],yt);
+	t2=translate2d([t1[0],y],(-xt));
+	t3=translate2d([t1[1],t2[1]],zt);
+	var res=new Array();
+	res[0]=t3[0];
+	res[1]=t3[1];
+	res[2]=-t2[1];
+	return res;
+};
+
 //Exports:
+module.exports.ABS=abs;
 module.exports.VT=Vector_Transform;
 module.exports.UVT=Utral_Vector_Transform;
 module.exports.Cross=vxm;
@@ -237,3 +324,4 @@ module.exports.ASV2D=accelerator_static_2D_predictor;
 module.exports.TA=ta;
 module.exports.Mo=mo;
 module.exports.T2D=translate2d;
+module.exports.T3D=translate3d;
