@@ -282,7 +282,6 @@ var accelerator_static_2D_predictor=function(vec1,vec2){
   return F;
 };
 
-//With errors:
 var translate3d=function(vp,vt){
 	var x=vp[0];
 	var y=vp[1];
@@ -299,8 +298,45 @@ var translate3d=function(vp,vt){
 	var res=new Array();
 	res[0]=t3[0];
 	res[1]=t3[1];
-	res[2]=-t2[1];
+	res[2]=t2[1];
 	return res;
+};
+
+var mo3d=function(x,y,z){
+	var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+	return m;
+};
+
+var wtv=function(x,y,z){
+	var R=new Array();
+	R[0]=x;
+	R[1]=y;
+	R[2]=z;
+	R[3]=mo3d(x,y,z);
+	return R;
+};
+
+var Inverse_Growing=function(vec){
+	var unit_vec=new Array();
+	var m=mo3d(vec[0],vec[1],vec[2]);
+	unit_vec[0]=(vec[0]/m);
+	unit_vec[1]=(vec[1]/m);
+	unit_vec[2]=(vec[2]/m);
+	return unit_vec;
+};
+
+var Permutation_Rotate=function(x,y,z,xt,yt,zt){
+	var R=new Array();
+	R=wtv(xt,yt,zt);
+	var w=(0-1)*R[3];
+	var rx=Utral_Vector_Transform([1,0,0],[R[0],R[1],R[2]],w);
+	var ry=Utral_Vector_Transform([0,1,0],[R[0],R[1],R[2]],w);
+	var rz=Utral_Vector_Transform([0,0,1],[R[0],R[1],R[2]],w);
+	var px=Inverse_Growing(rx);
+	var py=Inverse_Growing(ry);
+	var pz=Inverse_Growing(rz);
+	var permutation_res=vp(vp(nmv(x,px),nmv(y,py)),nmv(z,pz));
+	return permutation_res;
 };
 
 //Exports:
@@ -322,6 +358,10 @@ module.exports.ARCCOS=arccos;
 module.exports.MAP=map;
 module.exports.ASV2D=accelerator_static_2D_predictor;
 module.exports.TA=ta;
-module.exports.Mo=mo;
+module.exports.M2D=mo;
+module.exports.M3D=mo3d;
+module.exports.WTV=wtv;
+module.exports.Inverse_Growing=Inverse_Growing;
+module.exports.PR=Permutation_Rotate;
 module.exports.T2D=translate2d;
 module.exports.T3D=translate3d;
