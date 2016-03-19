@@ -16,6 +16,20 @@
 
 */
 
+var mo3d=function(x,y,z){
+	var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+	return m;
+};
+
+var Inverse_Growing=function(vec){
+	var unit_vec=new Array();
+	var m=mo3d(vec[0],vec[1],vec[2]);
+	unit_vec[0]=(vec[0]/m);
+	unit_vec[1]=(vec[1]/m);
+	unit_vec[2]=(vec[2]/m);
+	return unit_vec;
+};
+
 var abs=function(n){
 	if(n>=0){
 		return n;
@@ -203,7 +217,7 @@ var Utral_Vector_Transform=function(Vector,Axis,Theta){
   var ts=sind(Theta/2);
   var tc=cosd(Theta/2);
   var W=tc;
-  var V=nmv(ts,Axis);
+  var V=nmv(ts,Inverse_Growing(Axis));
   Quaternion[0]=V[0];
   Quaternion[1]=V[1];
   Quaternion[2]=V[2];
@@ -302,11 +316,6 @@ var translate3d=function(vp,vt){
 	return res;
 };
 
-var mo3d=function(x,y,z){
-	var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
-	return m;
-};
-
 var wtv=function(x,y,z){
 	var R=new Array();
 	R[0]=x;
@@ -316,27 +325,26 @@ var wtv=function(x,y,z){
 	return R;
 };
 
-var Inverse_Growing=function(vec){
-	var unit_vec=new Array();
-	var m=mo3d(vec[0],vec[1],vec[2]);
-	unit_vec[0]=(vec[0]/m);
-	unit_vec[1]=(vec[1]/m);
-	unit_vec[2]=(vec[2]/m);
-	return unit_vec;
+var Relative_Position=function(x,y,z,px,py,pz){
+	var p1=nmv(x,px);
+	var p2=nmv(y,py);
+	var p3=nmv(z,pz);
+	var rc=vp(vp(p1,p2),p3);
 };
 
 var Permutation_Rotate=function(x,y,z,xt,yt,zt){
 	var R=new Array();
 	R=wtv(xt,yt,zt);
 	var w=(-1)*R[3];
-	var rx=Utral_Vector_Transform([1,0,0],Inverse_Growing([R[0],R[1],R[2]]),w);
-	var ry=Utral_Vector_Transform([0,1,0],Inverse_Growing([R[0],R[1],R[2]]),w);
-	var rz=Utral_Vector_Transform([0,0,1],Inverse_Growing([R[0],R[1],R[2]]),w);
+	var rx=Utral_Vector_Transform([1,0,0],[R[0],R[1],R[2]],w);
+	var ry=Utral_Vector_Transform([0,1,0],[R[0],R[1],R[2]],w);
+	var rz=Utral_Vector_Transform([0,0,1],[R[0],R[1],R[2]],w);
 	var px=Inverse_Growing(rx);
 	var py=Inverse_Growing(ry);
 	var pz=Inverse_Growing(rz);
 	var permutation_res=vp(vp(nmv(x,px),nmv(y,py)),nmv(z,pz));
-	return permutation_res;
+	var Cluster=[permutation_res,px,py,pz];
+	return Cluster;
 };
 
 //Exports:
@@ -365,3 +373,4 @@ module.exports.Inverse_Growing=Inverse_Growing;
 module.exports.PR=Permutation_Rotate;
 module.exports.T2D=translate2d;
 module.exports.T3D=translate3d;
+module.exports.Relative_Position=Relative_Position;
