@@ -1,1 +1,376 @@
-var mo3d=function(b,d,c){var a=Math.sqrt(Math.pow(b,2)+Math.pow(d,2)+Math.pow(c,2));return a};var Inverse_Growing=function(b){var c=new Array();var a=mo3d(b[0],b[1],b[2]);c[0]=(b[0]/a);c[1]=(b[1]/a);c[2]=(b[2]/a);return c};var abs=function(a){if(a>=0){return a}else{if(a<0){return(-a)}}};var map=function(c,i,d){var l=i[0];var h=i[1];var k=d[0];var g=d[1];var j=i[1]-i[0];var f=d[1]-d[0];var e=(((c-l)/j)*f)+k;return e};var vxm=function(c,b){var a=c[1]*b[2]-b[1]*c[2];var f=c[2]*b[0]-b[2]*c[0];var e=c[0]*b[1]-c[1]*b[0];var d=new Array();d[0]=a;d[1]=f;d[2]=e;return d};var vdm=function(b,a){var f=b[0]*a[0];var e=b[1]*a[1];var d=b[2]*a[2];var c=f+e+d;return c};var vp=function(c,b){var a=c[0]+b[0];var f=c[1]+b[1];var e=c[2]+b[2];var d=new Array();d[0]=a;d[1]=f;d[2]=e;return d};var rtd=function(a){var b=a*(180/Math.PI);return b};var arcsin=function(a){var c=Math.asin(a);var b=rtd(c);return b};var arccos=function(b){var a=Math.acos(b);var c=rtd(a);return c};var sind=function(b){var a=b*Math.PI/180;return Math.sin(a)};var cosd=function(b){var a=b*Math.PI/180;return Math.cos(a)};var Euler=function(a,c,d){x=sind(c/2)*sind(d/2)*cosd(a/2)+cosd(c/2)*cosd(d/2)*sind(a/2);y=cosd(c/2)*sind(d/2)*sind(a/2)+sind(c/2)*cosd(d/2)*cosd(a/2);z=cosd(c/2)*sind(d/2)*cosd(a/2)-sind(c/2)*cosd(d/2)*sind(a/2);w=cosd(c/2)*cosd(d/2)*cosd(a/2)-sind(c/2)*sind(d/2)*sind(a/2);var b=new Array();b[0]=x;b[1]=y;b[2]=z;b[3]=w;return b};var qv=function(c){var a=c[0];var e=c[1];var d=c[2];var b=new Array();b[0]=a;b[1]=e;b[2]=d;return b};var nmv=function(a,b){x=a*b[0];y=a*b[1];z=a*b[2];res=new Array();res[0]=x;res[1]=y;res[2]=z;return res};var qmu=function(d,c){var g=new Array();var f=new Array();g=qv(d);f=qv(c);var b=d[3];var a=c[3];var i=new Array();i=vp(vp(vxm(g,f),nmv(b,f)),nmv(a,g));var h=b*a-vdm(g,f);var e=new Array();e[0]=i[0];e[1]=i[1];e[2]=i[2];e[3]=h;return e};var vtq=function(a){var b=new Array();b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=0;return b};var cq=function(b){var a=new Array();a[0]=(-1)*b[0];a[1]=(-1)*b[1];a[2]=(-1)*b[2];a[3]=b[3];return a};var N=function(b){var a=Math.pow(b[0],2)+Math.pow(b[1],2)+Math.pow(b[2],2)+Math.pow(b[3],2);return Math.sqrt(a)};var iq=function(d){var a=1;var b=cq(d);var c=new Array();c[0]=b[0]/a;c[1]=b[1]/a;c[2]=b[2]/a;c[3]=b[3]/a;return c};var Quaternion_Transform=function(b,d){var a=iq(d);var e=vtq(b);var f=qmu(qmu(d,e),a);var c=new Array();c[0]=f[0];c[1]=f[1];c[2]=f[2];return c};var Vector_Transform=function(a,d){var b=Euler(d[0],d[1],d[2]);var c=Quaternion_Transform(a,b);return c};var Utral_Vector_Transform=function(f,g,i){var d=new Array();var h=sind(i/2);var e=cosd(i/2);var a=e;var c=nmv(h,Inverse_Growing(g));d[0]=c[0];d[1]=c[1];d[2]=c[2];d[3]=a;var b=Quaternion_Transform(f,d);return b};var gtd=function(b){var a=0.9*b;return a};var mo=function(b,c){var a=Math.sqrt(Math.pow(b,2)+Math.pow(c,2));return a};var ta=function(a,c){if(a!=0&&c!=0){var b=arcsin(c/(mo(abs(a),as(c))));if(a>0&&c>0){return b}if(a<0&&c>0){return(180-b)}if(a<0&&c<0){return(180+b)}if(a>0&&c<0){return(360-b)}}else{if(a==0&&c!=0){if(c>0){return 90}else{return 270}}else{if(a!=0&&c==0){if(a>0){return 0}if(a<0){return 180}}else{return 0}}}return theta};var translate2d=function(e,d){var b=cosd(d)*e[0]+cosd(90+d)*e[1];var a=sind(d)*e[0]+sind(90+d)*e[1];var c=new Array();c[0]=b;c[1]=a;return c};var accelerator_static_2D_predictor=function(g,e){var b=g[0];var d=g[1];var a=e[0];var c=e[1];var h=new Array();h=translate2d([a,c],(ta(b,d)-90));var f=new Array();f[0]=h[0]-b;f[1]=h[1]-a;return f};var translate3d=function(a,l){var j=a[0];var i=a[1];var h=a[2];var b=l[0];var k=l[1];var f=l[2];var e=new Array();var d=new Array();var c=new Array();e=translate2d([h,j],k);d=translate2d([e[0],i],(-b));c=translate2d([e[1],d[1]],f);var g=new Array();g[0]=c[0];g[1]=c[1];g[2]=d[1];return g};var wtv=function(a,d,c){var b=new Array();b[0]=a;b[1]=d;b[2]=c;b[3]=mo3d(a,d,c);return b};var Relative_Position=function(f,c,b,h,e,d){var j=nmv(f,h);var i=nmv(c,e);var g=nmv(b,d);var a=vp(vp(j,i),g)};var Permutation_Rotate=function(m,k,i,e,p,h){var f=new Array();f=wtv(e,p,h);var o=(-1)*f[3];var c=Utral_Vector_Transform([1,0,0],[f[0],f[1],f[2]],o);var b=Utral_Vector_Transform([0,1,0],[f[0],f[1],f[2]],o);var a=Utral_Vector_Transform([0,0,1],[f[0],f[1],f[2]],o);var n=Inverse_Growing(c);var l=Inverse_Growing(b);var j=Inverse_Growing(a);var d=vp(vp(nmv(m,n),nmv(k,l)),nmv(i,j));var g=[d,n,l,j];return g};module.exports.ABS=abs;module.exports.VT=Vector_Transform;module.exports.UVT=Utral_Vector_Transform;module.exports.Cross=vxm;module.exports.Dot=vdm;module.exports.Plus=vp;module.exports.sind=sind;module.exports.cosd=cosd;module.exports.Euler=Euler;module.exports.Quaternion_Inverse=iq;module.exports.Quaternion_Norm=N;module.exports.Quaternion_Multiply=qmu;module.exports.RTD=rtd;module.exports.ARCSIN=arcsin;module.exports.ARCCOS=arccos;module.exports.MAP=map;module.exports.ASV2D=accelerator_static_2D_predictor;module.exports.TA=ta;module.exports.M2D=mo;module.exports.M3D=mo3d;module.exports.WTV=wtv;module.exports.Inverse_Growing=Inverse_Growing;module.exports.PR=Permutation_Rotate;module.exports.T2D=translate2d;module.exports.T3D=translate3d;module.exports.Relative_Position=Relative_Position;
+/*
+
+                   Y
+                   |
+                   |
+                   |
+                   |
+                   |
+                   |
+                  /----------------Z
+                 /
+                /
+               /
+              /
+             X
+
+*/
+
+var mo3d=function(x,y,z){
+	var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+	return m;
+};
+
+var Inverse_Growing=function(vec){
+	var unit_vec=new Array();
+	var m=mo3d(vec[0],vec[1],vec[2]);
+	unit_vec[0]=(vec[0]/m);
+	unit_vec[1]=(vec[1]/m);
+	unit_vec[2]=(vec[2]/m);
+	return unit_vec;
+};
+
+var abs=function(n){
+	if(n>=0){
+		return n;
+	}else{
+		if(n<0){
+			return (-n);
+		}
+	}
+};
+
+var map=function(val,input,out){
+  var min1=input[0];
+  var max1=input[1];
+  var min2=out[0];
+  var max2=out[1];
+  var a=input[1]-input[0];
+  var b=out[1]-out[0];
+  var res=(((val-min1)/a)*b)+min2;
+  return res;
+};
+
+var vxm=function(u,v){
+  var x=u[1]*v[2]-v[1]*u[2];
+  var y=u[2]*v[0]-v[2]*u[0];
+  var z=u[0]*v[1]-u[1]*v[0];
+  var res=new Array();
+  res[0]=x;
+  res[1]=y;
+  res[2]=z;
+  return res;
+};
+
+var vdm=function(u,v){
+  var p1=u[0]*v[0];
+  var p2=u[1]*v[1];
+  var p3=u[2]*v[2];
+  var res=p1+p2+p3;
+  return res;
+};
+
+var vp=function(u,v){
+  var x=u[0]+v[0];
+  var y=u[1]+v[1];
+  var z=u[2]+v[2];
+  var res=new Array();
+  res[0]=x;
+  res[1]=y;
+  res[2]=z;
+  return res;
+};
+
+var rtd=function(rad){
+  var deg=rad*(180/Math.PI);
+  return deg;
+};
+
+var arcsin=function(sin){
+  var rasin=Math.asin(sin);
+  var dasin=rtd(rasin);
+  return dasin;
+};
+
+var arccos=function(cos){
+  var racos=Math.acos(cos);
+  var dacos=rtd(racos);
+  return dacos;
+};
+
+var sind=function(theta){
+  var rad=theta*Math.PI/180;
+  return Math.sin(rad);
+};
+
+var cosd=function(theta){
+  var rad=theta*Math.PI/180;
+  return Math.cos(rad);
+};
+
+var Euler=function(xt,yt,zt){
+  x=sind(yt/2)*sind(zt/2)*cosd(xt/2)+cosd(yt/2)*cosd(zt/2)*sind(xt/2);
+  y=cosd(yt/2)*sind(zt/2)*sind(xt/2)+sind(yt/2)*cosd(zt/2)*cosd(xt/2);
+  z=cosd(yt/2)*sind(zt/2)*cosd(xt/2)-sind(yt/2)*cosd(zt/2)*sind(xt/2);
+  w=cosd(yt/2)*cosd(zt/2)*cosd(xt/2)-sind(yt/2)*sind(zt/2)*sind(xt/2);
+  var Quaternion=new Array();
+  Quaternion[0]=x;
+  Quaternion[1]=y;
+  Quaternion[2]=z;
+  Quaternion[3]=w;
+  return Quaternion;
+};
+
+var qv=function(q){
+  var x=q[0];
+  var y=q[1];
+  var z=q[2];
+  var res = new Array();
+  res[0]=x;
+  res[1]=y;
+  res[2]=z;
+  return res;
+};
+
+var nmv=function(num,vec){
+  x=num*vec[0];
+  y=num*vec[1];
+  z=num*vec[2];
+  res=new Array();
+  res[0]=x;
+  res[1]=y;
+  res[2]=z;
+  return res;
+};
+
+var qmu=function(q1,q2){
+  var v1=new Array();
+  var v2=new Array();
+  v1=qv(q1);
+  v2=qv(q2);
+  var w1=q1[3];
+  var w2=q2[3];
+  var p1=new Array();
+  p1=vp(vp(vxm(v1,v2),nmv(w1,v2)),nmv(w2,v1));
+  var p2=w1*w2-vdm(v1,v2);
+  var res=new Array();
+  res[0]=p1[0];
+  res[1]=p1[1];
+  res[2]=p1[2];
+  res[3]=p2;
+  return res;
+};
+
+var vtq=function(vec){
+  var Q=new Array();
+  Q[0]=vec[0];
+  Q[1]=vec[1];
+  Q[2]=vec[2];
+  Q[3]=0;
+  return Q;
+};
+
+var cq=function(Q){
+  var res=new Array();
+  res[0]=(-1)*Q[0];
+  res[1]=(-1)*Q[1];
+  res[2]=(-1)*Q[2];
+  res[3]=Q[3];
+  return res;
+};
+
+var N=function(q){
+  var orin=Math.pow(q[0],2)+Math.pow(q[1],2)+Math.pow(q[2],2)+Math.pow(q[3],2);
+  return Math.sqrt(orin);
+};
+
+var iq=function(Q){
+  var m=1;//Change this into N(Q)
+  var con=cq(Q);
+  var res=new Array();
+  res[0]=con[0]/m;
+  res[1]=con[1]/m;
+  res[2]=con[2]/m;
+  res[3]=con[3]/m;
+  return res;
+};
+
+var Quaternion_Transform=function(V,Q){
+  var QI=iq(Q);
+  var P=vtq(V);
+  var resq=qmu(qmu(Q,P),QI);
+  var resv=new Array();
+  resv[0]=resq[0];
+  resv[1]=resq[1];
+  resv[2]=resq[2];
+  return resv;
+};
+
+var Vector_Transform=function(Vector,Theta){
+  var Quaternion=Euler(Theta[0],Theta[1],Theta[2]);
+  var Result=Quaternion_Transform(Vector,Quaternion);
+  return Result;
+};
+
+var Utral_Vector_Transform=function(Vector,Axis,Theta){
+  var Quaternion=new Array();
+  var ts=sind(Theta/2);
+  var tc=cosd(Theta/2);
+  var W=tc;
+  var V=nmv(ts,Inverse_Growing(Axis));
+  Quaternion[0]=V[0];
+  Quaternion[1]=V[1];
+  Quaternion[2]=V[2];
+  Quaternion[3]=W;
+  var Result=Quaternion_Transform(Vector,Quaternion);
+  return Result;
+};
+
+var gtd=function(g){
+  var t=0.9*g;
+  return t;
+};
+
+var mo=function(x,y){
+  var m=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+  return m;
+};
+
+var ta=function(x,y){
+  if(x!=0&&y!=0){
+    var tr=arcsin(y/(mo(abs(x),as(y))));
+	if(x>0&&y>0){
+		return tr;
+	}
+	if(x<0&&y>0){
+		return (180-tr);
+	}
+	if(x<0&&y<0){
+		return (180+tr);
+	}
+	if(x>0&&y<0){
+		return (360-tr);
+	}
+  }else{
+	  if(x==0&&y!=0){
+		  if(y>0){
+			  return 90;
+		  }else{
+			  return 270;
+		  }
+	  }else{
+		  if(x!=0&&y==0){
+			  if(x>0){
+				  return 0;
+			  }
+			  if(x<0){
+				  return 180;
+			  }
+		  }else{
+			  return 0;
+		  }
+	  }
+  }
+  return theta;
+};
+
+var translate2d=function(vec,t){
+	var u=cosd(t)*vec[0]+cosd(90+t)*vec[1];
+	var v=sind(t)*vec[0]+sind(90+t)*vec[1];
+	var Base=new Array();
+	Base[0]=u;
+	Base[1]=v;
+	return Base;
+};
+
+var accelerator_static_2D_predictor=function(vec1,vec2){
+  var x1=vec1[0];
+  var y1=vec1[1];
+  var x2=vec2[0];
+  var y2=vec2[1];
+  var E=new Array();
+  E=translate2d([x2,y2],(ta(x1,y1)-90));
+  var F=new Array();
+  F[0]=E[0]-x1;
+  F[1]=E[1]-x2;
+  return F;
+};
+
+var translate3d=function(vp,vt){
+	var x=vp[0];
+	var y=vp[1];
+	var z=vp[2];
+	var xt=vt[0];
+	var yt=vt[1];
+	var zt=vt[2];
+	var t1=new Array();
+	var t2=new Array();
+	var t3=new Array();
+	t1=translate2d([z,x],yt);
+	t2=translate2d([t1[0],y],(-xt));
+	t3=translate2d([t1[1],t2[1]],zt);
+	var res=new Array();
+	res[0]=t3[0];
+	res[1]=t3[1];
+	res[2]=t2[1];
+	return res;
+};
+
+var wtv=function(x,y,z){
+	var R=new Array();
+	R[0]=x;
+	R[1]=y;
+	R[2]=z;
+	R[3]=mo3d(x,y,z);
+	return R;
+};
+
+var Relative_Position=function(x,y,z,px,py,pz){
+	var p1=nmv(x,px);
+	var p2=nmv(y,py);
+	var p3=nmv(z,pz);
+	var rc=vp(vp(p1,p2),p3);
+};
+
+var Permutation_Rotate=function(x,y,z,xt,yt,zt){
+	var R=new Array();
+	R=wtv(xt,yt,zt);
+	var w=(-1)*R[3];
+	var rx=Utral_Vector_Transform([1,0,0],[R[0],R[1],R[2]],w);
+	var ry=Utral_Vector_Transform([0,1,0],[R[0],R[1],R[2]],w);
+	var rz=Utral_Vector_Transform([0,0,1],[R[0],R[1],R[2]],w);
+	var px=Inverse_Growing(rx);
+	var py=Inverse_Growing(ry);
+	var pz=Inverse_Growing(rz);
+	var permutation_res=vp(vp(nmv(x,px),nmv(y,py)),nmv(z,pz));
+	var Cluster=[permutation_res,px,py,pz];
+	return Cluster;
+};
+
+//Exports:
+module.exports.ABS=abs;
+module.exports.VT=Vector_Transform;
+module.exports.UVT=Utral_Vector_Transform;
+module.exports.Cross=vxm;
+module.exports.Dot=vdm;
+module.exports.Plus=vp;
+module.exports.sind=sind;
+module.exports.cosd=cosd;
+module.exports.Euler=Euler;
+module.exports.Quaternion_Inverse=iq;
+module.exports.Quaternion_Norm=N;
+module.exports.Quaternion_Multiply=qmu;
+module.exports.RTD=rtd;
+module.exports.ARCSIN=arcsin;
+module.exports.ARCCOS=arccos;
+module.exports.MAP=map;
+module.exports.ASV2D=accelerator_static_2D_predictor;
+module.exports.TA=ta;
+module.exports.M2D=mo;
+module.exports.M3D=mo3d;
+module.exports.WTV=wtv;
+module.exports.Inverse_Growing=Inverse_Growing;
+module.exports.PR=Permutation_Rotate;
+module.exports.T2D=translate2d;
+module.exports.T3D=translate3d;
+module.exports.Relative_Position=Relative_Position;
