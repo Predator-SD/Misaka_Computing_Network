@@ -347,6 +347,17 @@ var Permutation_Rotate=function(x,y,z,xt,yt,zt){
 	return Cluster;
 };
 
+var Format_Transform=function(raw){
+	var input=new String();
+	input=raw;
+	var outputs = input.split(',');
+	var output=new Array();
+	for(var i=0;i<outputs.length;i++){
+		output[i]=outputs[i]*1;
+	}
+	return output;
+}; 
+
 //Exports:
 module.exports.ABS=abs;
 module.exports.VT=Vector_Transform;
@@ -374,3 +385,4 @@ module.exports.PR=Permutation_Rotate;
 module.exports.T2D=translate2d;
 module.exports.T3D=translate3d;
 module.exports.Relative_Position=Relative_Position;
+module.exports.FT=Format_Transform;
