@@ -52,7 +52,7 @@ node Misaka_Network.js -s 0.0.0.0(服务器IP) 消息内容
 ```
 举个例子，向网络整体发233:<br>
 ``` shell
-node Misaka_Network.js -s 0.0.0.0(服务器IP) 消息内容
+node Misaka_Network.js -s 0.0.0.0(服务器IP) 233
 ```
 就是这样，网络总体会收到你的信息和IP以方便回复～<br>
 5.总结
