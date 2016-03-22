@@ -125,6 +125,7 @@ function LASTORDER(){
         }
       }
       console.log(remote.address+':'+remote.port+'>'+words);
+      fs.writeFile("./Raw.SD",words);
     }
   });
   net.bind(2426);
