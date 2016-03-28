@@ -102,9 +102,11 @@
 
 int tune[]=
 {
+  cm2,cm4,ch4,ch5,ch6,ch2,ch1,ch6,ch2,ch6,ch5,ch4,cm4
 };
 float durt[]=
 {
+  1,1,1,1,1.5,1,1,1.5,1.5,1,1,1,1
 };
 int length;
 int tonepin=6;
@@ -115,11 +117,11 @@ void setup()
 }
 void loop()
 {
-  delay(5000);
+  delay(1000);
   for(int x=0;x<length;x++)
   {
     tone(tonepin,tune[x]);
-    delay(500*durt[x]);
+    delay(270*durt[x]);
     noTone(tonepin);
   }
 }
