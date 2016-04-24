@@ -88,6 +88,7 @@ function communicate(words,host){
   net.send(message, 0, message.length, port, host, function(err, bytes){
     if(err) throw err;
     console.log('Message sent to ' + host + ':'+ port);
+    console.log("Contains Check:"+words);
     net.close();
   });
 }
@@ -107,7 +108,13 @@ function LASTORDER(){
     console.log(head);
     if(head=='c'){
       var opea=re[1];
-      var pm=re[2];
+      var pm='';
+      for(var co in re){
+        if(co>=2){
+          pm+=re[co];
+          pm+=' ';
+        }
+      }
       console.log(pm);
       cus(pm);
       console.log("Calculating...");
