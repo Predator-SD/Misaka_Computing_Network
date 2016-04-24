@@ -215,20 +215,7 @@ var run=function(obj){
       console.log("Undefined Action!!! <-h for help>");
     }
     if(option=='-e'&&obj[1]!=undefined&&obj[2]!=undefined&&obj[3]!=undefined){
-    	var head3='e ';
-    	var insc2
-    	for(var mp3 in obj){
-    	  if(mp3>=3){
-    	    if(obj[mp2]=='e'){
-    	    	insc2+='; \n';
-    	    }else{
-    	    	insc2+=obj[mp2]+' ';
-    	    }
-    	  }
-    	}
-    	var rese=head3+insc2;
-    	host+=obj[1];
-    	communicate(rese,host);
+      console.log("Developping......");
     }
     if(option=='-c'&&obj[1]!=undefined&&obj[2]!=undefined&&obj[3]!=undefined){
       var m=obj[2];
