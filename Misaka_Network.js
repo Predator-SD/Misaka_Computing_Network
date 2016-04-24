@@ -43,9 +43,10 @@ function httpserver(){
   });
   httpserver.listen(2333);
 }
-function reply(host){
+function reply(ope,host){
   var cal=require("./cal.js");
   resre((cal.compute()).toString(),host,2427);
+  se(ope,cal.compute());
   console.log("Result:"+cal.compute());
   console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
   return 0;
@@ -100,18 +101,13 @@ function LASTORDER(){
   net.on('message',function(message,remote){
     //console.log('Raw message:'+message);
     var str=message.toString();
-    var head='';
-    head+=str[0];
-    head+=str[1];
+    re=str.split(' ');
+    var head=re[0];
     //console.log(typeof head);
     console.log(head);
-    if(head=='c '){
-      var pm='';
-      for(var m in str){
-        if(m>=2){
-          pm+=str[m];
-        }
-      }
+    if(head=='c'){
+      var opea=re[1];
+      var pm=re[2];
       console.log(pm);
       cus(pm);
       console.log("Calculating...");
@@ -125,7 +121,7 @@ function LASTORDER(){
           if(error) throw error;
           if(data!=''){
             if(isready==false){
-              reply(remote.address);
+              reply(opea,remote.address);
               var pwd=path.resolve();
               pwd+='/cal.js';
               delete require.cache[pwd];
@@ -137,13 +133,8 @@ function LASTORDER(){
         });
       }
     }
-    if(head=='s '){
-      var words='';
-      for(var n in str){
-        if(n>=2){
-          words+=str[n];
-        }
-      }
+    if(head=='s'){
+      var words=re[1];
       console.log(remote.address+':'+remote.port+'>'+words);
       fs.writeFile("./Raw.SD",words);
     }
@@ -211,21 +202,38 @@ var run=function(obj){
       host+=obj[1];
       communicate(mes,host);
     }
-    if(option!='-h'&&option!='-l'&&option!='-c'&&option!='-s'){
+    if(option!='-h'&&option!='-l'&&option!='-c'&&option!='-s'&&option!='-e'){
       console.log("Undefined Action!!! <-h for help>");
     }
-    if(option=='-c'&&obj[1]!=undefined&&obj[2]!=undefined){
+    if(option=='-e'&&obj[1]!=undefined&&obj[2]!=undefined&&obj[3]!=undefined){
+    	var head3='e ';
+    	var insc2
+    	for(var mp3 in obj){
+    	  if(mp3>=3){
+    	    if(obj[mp2]=='e'){
+    	    	insc2+='; \n';
+    	    }else{
+    	    	insc2+=obj[mp2]+' ';
+    	    }
+    	  }
+    	}
+    	var rese=head3+insc2;
+    	host+=obj[1];
+    	communicate(rese,host);
+    }
+    if(option=='-c'&&obj[1]!=undefined&&obj[2]!=undefined&&obj[3]!=undefined){
+      var m=obj[2];
       for(var mp2 in obj){
-        if(mp2>=2){
+        if(mp2>=3){
           if(obj[mp2]=='e'){
-            insc+='; ';
+            insc+='; \n';
           }else{
             insc+=obj[mp2]+' ';
           }
         }
       }
       var head2="c ";
-      var res=head2+insc;
+      var res=head2+m+' '+insc;
       host+=obj[1];
       communicate(res,host);
       //listen(2427);
