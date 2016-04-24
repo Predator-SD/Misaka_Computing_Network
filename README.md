@@ -30,17 +30,17 @@ node Misaka_Network.js -l
 先开一个服务器我就不解释了<br>
 然后<br>
 ``` shell
-node Misaka_Network.js -c 服务器IP(如果是在同一台机子上可以直接填0.0.0.0) 计算内容
+node Misaka_Network.js -c 服务器IP(如果是在同一台机子上可以直接填0.0.0.0 ) 你的邮箱地址 计算内容
 ```
 下面主要讲一下这里的计算内容该怎么填：<br>
 其实捏 这里的计算内容就是一个函数，举个例子：如果我想让她计算1+1：<br>
 ``` shell
-node Misaka_Network.js -c 0.0.0.0 var a=1 e var b=1 e return a+b e
+node Misaka_Network.js -c 0.0.0.0 xxx@qq.com var a=1 e var b=1 e return a+b e
 ```
 看懂了吗，其实就是js的语法，只不过分号（；）都用e表示了，return的值就是你想要的计算结果<br>
 233记住一点，那个e必须独立出来，两边都要有空格喔！～<br>
 ###更新后的计算结果接收方法：<br>
-######第一种方法，也是最简单的一种，你可以直接上：xxx.xxx.xxx.xxx(服务器的ip）:2333/Result.SD 进行查看<br>
+######第一种方法，也是最简单的一种，你可以直接上：xxx.xxx.xxx.xxx(服务器的ip）:2333/Result.SD 进行查看。也可以到自己留的邮箱里查看结果<br>
 ######第二种方法，是一个古老的程序残留物，你可以去掉Misaka_Network.js中：第一百二十行：//listen(2427);这句话前面的两个斜杠233<br>
 ######但第二种方法需要你把自己的2427端口映射到外网才能正常使用，为了您计算机的安全，我不建议使用本方法233<br>
 4.客户端向网络整体发`消息`
