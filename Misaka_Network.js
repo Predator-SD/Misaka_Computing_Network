@@ -3,7 +3,27 @@ var
     fs = require('fs'),
     url = require('url'),
     path = require('path'),
-    http = require('http');
+    http = require('http'),
+    nodemailer  = require("nodemailer");
+var user = 'user@outlook.com',
+    pass = 'password';
+var transport = nodemailer.createTransport("SMTP", {
+    service: "hotmail",
+    auth: {
+        user: user,
+        pass: pass
+    }
+});
+function se(op,res){
+  transport.sendMail({
+      from    : 'Predator<' + user + '>'
+      , to      : '<'+ op +'>'
+      , subject : 'Calculation Result'
+      , html    : res
+  }, function(err, res) {
+      console.log(err, res);
+  });
+}
 function httpserver(){
   var root=path.resolve();
   var httpserver = http.createServer(function (request, response) {
