@@ -5,8 +5,8 @@ var
     path = require('path'),
     http = require('http'),
     nodemailer  = require("nodemailer");
-var user = 'user@outlook.com',
-    pass = 'password';
+var user = 'usr@outlook.com',
+    pass = 'pass';
 var transport = nodemailer.createTransport("SMTP", {
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // use SSL
@@ -48,7 +48,7 @@ function httpserver(){
 function reply(ope,host){
   var cal=require("./cal.js");
   resre((cal.compute()).toString(),host,2427);
-  se(ope,cal.compute());
+  se(ope,cal.compute().toString());
   console.log("Result:"+cal.compute());
   console.log("Misaka Misaka has perfectly finished the work!Misaka Misaka is speaking in a brilliant mood!");
   return 0;
