@@ -8,11 +8,13 @@ var
 var user = 'user@outlook.com',
     pass = 'password';
 var transport = nodemailer.createTransport("SMTP", {
-    service: "hotmail",
-    auth: {
-        user: user,
-        pass: pass
-    }
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // use SSL
+        port: 587, // port for secure SMTP
+        auth: {
+            user: user,
+            pass: pass
+        }
 });
 function se(op,res){
   transport.sendMail({
